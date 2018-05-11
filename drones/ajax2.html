@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+  </script>
+  <meta charset="UTF-8">
+  <title>Listado de Drones</title>
+  <link rel="stylesheet" href="main.css">
+  <script>
+   var theone = function() {
+    txt = "<b>Número de Drone</b><input type='number' name='inicial'><br>" + 
+          "<input style='position:relative;left:150px;' type='submit' value='Consultar'>";
+    $('#show').html(txt);
+   }
+
+   var multi = function() {
+    txt = "<p style='position:relative;left:150px'>Rango de Selección</p>" +
+          "<b>Número Inicial:</b><input type='number' name='inicial'>" +
+          "<b>Número Final:</b><input type='number' name='final'><br>" +
+          "<input style='position:relative;left:150px;' type='submit' value='Consultar'>";
+     $('#show').html(txt);  
+    }
+
+    var getValues = function(form) {
+     var inicial = 0;
+     var final = 0;
+     if (form.select[0].checked) {
+      var select=form.select[0].value;
+      inicial = form.inicial.value;
+    } else {
+      var select = form.select[1].value;
+      inicial = form.inicial.value;
+      final = form.final.value;
+    }
+    $.post(
+     "lista2",
+     {inicial: inicial,
+      final: final,
+      select: select},
+      function(data) {
+       $('#table').html(data);
+      }
+     );
+    }
+    var edition = function(form) {
+    
+    }
+  </script>
+ </head>
+
+ <body>
+  <h1>Lista de Drones</h1>
+  <section class="adm">
+   <form method="post" action="fake" onsubmit="edition(this);return false">
+    <fieldset>
+     <legend>Edición de datos</legend>
+     <b>Usuario:</b><input type="text" name="user" size="12">
+     <b>Contraseña:</b><input type="password" name="pass" size="10">
+     <input type="submit" name="submit" value="Acceder" style="margin-left: auto">
+    </fieldset>
+   </form>
+  </section>
+  <section class=user>
+   <h3 style="position: relative; left: 60px">Consulta de Drones</h3>
+   <form id="consul" method="post" action="fake.html" onsubmit="getValues(this); return false;">
+    <p>Tipo de consulta</p>
+     <input type="radio" name="select" value="one" onclick="theone()"><b>Unitaria</b>
+     <input type="radio" name="select" value="many" onclick="multi()"><b>Multiple</b><br>
+     <div id="show"></div>
+     <div id="table"></div>
+   </form>
+  </section>
+ </body>
+</html>    

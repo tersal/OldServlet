@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Listado de Drones</title>
+  <link rel="stylesheet" href="main.css">
+  <script>
+   var xmlhttp;
+   if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+   } else {
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+   }
+   var response = function () {
+    if (xmlhttp.readyState == 4 && xmlhttp.status==200) {
+     document.getElementById("table").innerHTML=xmlhttp.responseText;
+    }
+   }
+
+   var getValues = function(form) {
+    if (form.select[0].checked) {
+      var select=form.select[0].value;
+    } else { 
+      var select = form.select[1].value;
+    }
+    if (select == "one") {
+     params="inicial="+form.inicial.value+"&select="+select;
+    } else {
+     params="inicial="+form.inicial.value+"&final="+form.final.value+"&select="+select;
+    }
+  //  params="inicial=1&final=10&select=many";
+    xmlhttp.open("POST","lista2",true);
+    xmlhttp.onreadystatechange = response;
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.setRequestHeader("Connection", "keep-alive");
+    xmlhttp.setRequestHeader("Content-length", params.length);
+    xmlhttp.send(params);
+   }
+    
+   
+   var theone = function() {
+    txt = "<b>Número de Drone</b><input type='number' name='inicial'><br>" + 
+          "<input style='position:relative;left:150px;' type='submit' value='Consultar'>";
+    document.getElementById("show").innerHTML=txt;
+    document.getElementById("table").innerHTML="";
+   }
+   var multi = function() {
+    txt = "<p style='position:relative;left:150px'>Rango de Selección</p>" +
+          "<b>Número Inicial:</b><input type='number' name='inicial'>" +
+          "<b>Número Final:</b><input type='number' name='final'><br>" +
+          "<input style='position:relative;left:150px;' type='submit' value='Consultar'>";
+    document.getElementById("show").innerHTML=txt;
+    document.getElementById("table").innerHTML="";
+   }
+  </script>
+ </head>
+
+ <body>
+  <h1>Lista de Drones</h1>
+  <section class=adm>
+   <form method="post" action="edition">
+    <fieldset>
+     <legend>Edición de datos</legend>
+     <b>Usuario:</b><input type="text" name="user" size="12">
+     <b>Contraseña:</b><input type="password" name="pass" size="10">
+     <input type="submit" name="submit" value="Acceder" style="margin-left: auto">
+    </fieldset>
+   </form>
+  </section>
+  <section class=user>
+   <h3 style="position: relative; left: 60px">Consulta de Drones</h3>
+   <form id="consul" method="post" action="fake.html" onsubmit="getValues(this); return false;">
+    <p>Tipo de consulta</p>
+     <input type="radio" name="select" value="one" onclick="theone()"><b>Unitaria</b>
+     <input type="radio" name="select" value="many" onclick="multi()"><b>Multiple</b><br>
+     <div id="show"></div>
+     <div id="table"></div>
+   </form>
+  </section>
+ </body>
+</html>    

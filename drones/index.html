@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Listado de Drones</title>
+  <link rel="stylesheet" href="main.css">
+  <script>
+   var theone = function() {
+    txt = "<b>Número de Drone</b><input type='number' name='inicial'><br>" + 
+          "<input style='position:relative;left:150px;' type='submit' name='submit' value='Consultar'>";
+    document.getElementById("show").innerHTML=txt;
+   }
+   var multi = function() {
+    txt = "<p style='position:relative;left:150px'>Rango de Selección</p>" +
+          "<b>Número Inicial:</b><input type='number' name='inicial'>" +
+          "<b>Número Final:</b><input type='number' name='final'><br>" +
+          "<input style='position:relative;left:150px;' type='submit' name='submit' value='Consultar'>";
+    document.getElementById("show").innerHTML=txt;
+   }
+  </script>
+ </head>
+
+ <body>
+  <h1>Lista de Drones</h1>
+  <section class=adm>
+   <form method="get" action="edition">
+    <fieldset>
+     <legend>Edición de datos</legend>
+     <b>Usuario:</b><input type="text" name="user" size="12">
+     <b>Contraseña:</b><input type="password" name="pass" size="10">
+     <input type="submit" name="submit" value="Acceder" style="margin-left: auto">
+    </fieldset>
+   </form>
+  </section>
+  <section class=user>
+   <h3 style="position: relative; left: 60px">Consulta de Drones</h3>
+   <form method="get" action="lista">
+    <p>Tipo de consulta</p>
+     <input type="radio" name="select" value="one" onclick="theone()"><b>Unitaria</b>
+     <input type="radio" name="select" value="many" onclick="multi()"><b>Multiple</b><br>
+     <div id="show"></div>
+   </form>
+  </section>
+ </body>
+</html>    
